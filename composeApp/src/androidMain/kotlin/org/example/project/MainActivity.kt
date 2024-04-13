@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun AppAndroidPreview() {
     App()
