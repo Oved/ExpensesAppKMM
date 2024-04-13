@@ -4,7 +4,13 @@ import moe.tlaster.precompose.PreComposeApp
 
 @Composable
 fun App() {
-    PreComposeApp {
-        Text("Test")
+
+    val colors = getColorsTheme()
+
+    AppTheme {
+        PreComposeApp {
+            Text("Test")
+        }
     }
+    
 }
