@@ -5,6 +5,7 @@ CREATE TABLE ExpenseEntity (
     description TEXT NOT NULL
 );
 
+-- Valores por default
 INSERT INTO ExpenseEntity(amount, categoryName, description)
 VALUES
 (70.0, "GROCERIES","Weekly buy"),
