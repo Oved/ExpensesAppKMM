@@ -4,6 +4,15 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    id("app.cash.sqldelight") version "2.0.1"
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("com.expensesApp.db")
+        }
+    }
 }
 
 kotlin {
@@ -35,6 +44,9 @@ kotlin {
             implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.6"))
             implementation("io.insert-koin:koin-core")
             implementation("io.insert-koin:koin-android")
+
+            //SQLDelight
+            implementation("app.cash.sqldelight:android-driver:2.0.1")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -57,6 +69,11 @@ kotlin {
             implementation("io.insert-koin:koin-compose")
             api("moe.tlaster:precompose-koin:$precompose_version")
 
+        }
+        iosMain.dependencies {
+            //SQLDelight
+            implementation("app.cash.sqldelight:native-driver:2.0.1")
+            implementation("co.touchlab:stately-common:2.0.5")
         }
     }
 }
