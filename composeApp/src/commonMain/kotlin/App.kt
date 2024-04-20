@@ -23,68 +23,74 @@ import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
 import navigation.Navigation
+import org.koin.compose.KoinContext
 
 @Composable
 fun App() {
     PreComposeApp {
-        val colors = getColorsTheme()
-        AppTheme {
+        KoinContext {
+            val colors = getColorsTheme()
+            AppTheme {
 
-            val navigator = rememberNavigator()
-            val titleTopBar = getTitleTopAppBar(navigator)
-            val isEditOrAddExpenses = titleTopBar != TitleTopBarTypes.DASHBOARD.value
+                val navigator = rememberNavigator()
+                val titleTopBar = getTitleTopAppBar(navigator)
+                val isEditOrAddExpenses = titleTopBar != TitleTopBarTypes.DASHBOARD.value
 
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                topBar = {
-                    TopAppBar(
-                        elevation = 0.dp, title = {
-                            Text(
-                                titleTopBar,
-                                fontSize = 25.sp,
-                                color = colors.textColor
-                            )
-                        },
-                        backgroundColor = colors.backgroundColor,
-                        navigationIcon = {
-                            if (isEditOrAddExpenses) {
-                                IconButton(
-                                    onClick = { navigator.popBackStack() }
-                                ) {
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        TopAppBar(
+                            elevation = 0.dp, title = {
+                                Text(
+                                    titleTopBar,
+                                    fontSize = 25.sp,
+                                    color = colors.textColor
+                                )
+                            },
+                            backgroundColor = colors.backgroundColor,
+                            navigationIcon = {
+                                if (isEditOrAddExpenses) {
+                                    IconButton(
+                                        onClick = { navigator.popBackStack() }
+                                    ) {
+                                        Icon(
+                                            modifier = Modifier.padding(16.dp),
+                                            imageVector = Icons.Default.ArrowBackIosNew,
+                                            tint = colors.textColor,
+                                            contentDescription = "Arrow back icon"
+                                        )
+                                    }
+                                } else {
                                     Icon(
                                         modifier = Modifier.padding(16.dp),
-                                        imageVector = Icons.Default.ArrowBackIosNew,
+                                        imageVector = Icons.Default.Apps,
                                         tint = colors.textColor,
-                                        contentDescription = "Arrow back icon"
+                                        contentDescription = "Dashboard icon"
                                     )
                                 }
-                            } else {
+
+                            }
+                        )
+                    },
+                    floatingActionButton = {
+                        if (!isEditOrAddExpenses) {
+                            FloatingActionButton(
+                                modifier = Modifier.padding(8.dp),
+                                onClick = { navigator.navigate("/addExpenses") },
+                                shape = RoundedCornerShape(50),
+                                backgroundColor = colors.addIconColor,
+                                contentColor = Color.White
+                            ) {
                                 Icon(
-                                    modifier = Modifier.padding(16.dp),
-                                    imageVector = Icons.Default.Apps,
-                                    tint = colors.textColor,
-                                    contentDescription = "Dashboard icon"
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = "Add icon"
                                 )
                             }
-
-                        }
-                    )
-                },
-                floatingActionButton = {
-                    if (!isEditOrAddExpenses) {
-                        FloatingActionButton(
-                            modifier = Modifier.padding(8.dp),
-                            onClick = { navigator.navigate("/addExpenses") },
-                            shape = RoundedCornerShape(50),
-                            backgroundColor = colors.addIconColor,
-                            contentColor = Color.White
-                        ) {
-                            Icon(imageVector = Icons.Default.Add, contentDescription = "Add icon")
                         }
                     }
+                ) {
+                    Navigation(navigator)
                 }
-            ) {
-                Navigation(navigator)
             }
         }
     }
