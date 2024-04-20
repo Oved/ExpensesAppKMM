@@ -11,7 +11,10 @@ VALUES
 (70.0, "GROCERIES","Weekly buy"),
 (35.1, "SNACKS","Hmburguer"),
 (70.0, "CAR","Maintance"),
-(70.0, "COFFEE","Beans and cream");
+(70.0, "COFFEE","Beans and cream"),
+(70.0, "PARTY","Beans and cream"),
+(70.0, "HOUSE","Expenses"),
+(70.0, "OTHER","Cleaning");
 
 
 
@@ -26,5 +29,16 @@ SET amount = ?,
     description = ?
 WHERE id = ?;
 
+delete:
+DELETE FROM ExpenseEntity
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM ExpenseEntity;
+
 selectAll:
 SELECT * FROM ExpenseEntity;
+
+categories:
+SELECT categoryName
+FROM ExpenseEntity;
