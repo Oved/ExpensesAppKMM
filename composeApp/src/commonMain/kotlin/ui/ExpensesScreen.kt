@@ -3,11 +3,12 @@ package ui
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,8 +19,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddBusiness
+import androidx.compose.material.icons.filled.FolderDelete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,8 +57,20 @@ fun ExpensesScreen(
                 AllExpensesHeader()
             }
         }
-        items(uiState.expenses) { expense ->
-            ExpenseItem(expense = expense, onExpenseClick = onExpenseClick, onExpenseLongClick)
+        if (uiState.expenses.isEmpty()) {
+            item {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Icon(
+                        modifier = Modifier.fillMaxSize().size(148.dp).align(Alignment.Center),
+                        imageVector = Icons.Default.AddBusiness,
+                        contentDescription = "empty icon"
+                    )
+                }
+            }
+        } else {
+            items(uiState.expenses) { expense ->
+                ExpenseItem(expense = expense, onExpenseClick = onExpenseClick, onExpenseLongClick)
+            }
         }
     }
 }
@@ -108,6 +125,7 @@ fun AllExpensesHeader() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExpenseItem(
     expense: Expense,
@@ -120,7 +138,11 @@ fun ExpenseItem(
     Card(
         modifier = Modifier.fillMaxWidth()
             .padding(horizontal = 2.dp)
-            .clickable { onExpenseClick(expense) },
+            .combinedClickable(
+                onDoubleClick = {  },
+                onClick = { onExpenseClick(expense) },
+                onLongClick = { onExpenseLongClick(expense) }
+            ),
         backgroundColor = colors.colorExpenseItem,
         shape = RoundedCornerShape(30)
     ) {
