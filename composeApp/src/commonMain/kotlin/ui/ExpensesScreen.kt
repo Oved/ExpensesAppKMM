@@ -37,7 +37,8 @@ import presentation.ExpensesUiState
 @Composable
 fun ExpensesScreen(
     uiState: ExpensesUiState,
-    onExpenseClick: (expense: Expense) -> Unit
+    onExpenseClick: (expense: Expense) -> Unit,
+    onExpenseLongClick: (expense: Expense) -> Unit
 ) {
 
     val colors = getColorsTheme()
@@ -52,7 +53,7 @@ fun ExpensesScreen(
             }
         }
         items(uiState.expenses) { expense ->
-            ExpenseItem(expense = expense, onExpenseClick = onExpenseClick)
+            ExpenseItem(expense = expense, onExpenseClick = onExpenseClick, onExpenseLongClick)
         }
     }
 }
@@ -108,7 +109,11 @@ fun AllExpensesHeader() {
 }
 
 @Composable
-fun ExpenseItem(expense: Expense, onExpenseClick: (expense: Expense) -> Unit) {
+fun ExpenseItem(
+    expense: Expense,
+    onExpenseClick: (expense: Expense) -> Unit,
+    onExpenseLongClick: (expense: Expense) -> Unit
+) {
 
     val colors = getColorsTheme()
 
